@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: self-hosted # Specify that this job should run on a self-hosted runner
 
     steps:
       - name: Checkout code
@@ -24,13 +24,15 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      - name: Deploy to Server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.HOST }}
-          USER: ${{ secrets.USER }}
+      - name: Build Docker Image
         run: |
-          echo "$SSH_PRIVATE_KEY" > private_key
-          chmod 600 private_key
-          scp -i private_key -r .next public package.json node_modules $USER@$HOST:/path/to/deployment/directory
-          ssh -i private_key $USER@$HOST "cd /path/to/deployment/directory && npm install --production && pm2 restart your-app-name -- --port 3001"
+          docker build -t aeon . # Replace with your desired image name
+
+      - name: Run Docker Container
+        run: |
+          # Stop and remove existing container if running
+          docker stop aeon-test || true
+          docker rm aeon-test || true
+
+          # Run the Docker container on port 3001
+          docker run -d --name aeon-test -p 3001:3000 aeon # Adjust internal port if necessary
