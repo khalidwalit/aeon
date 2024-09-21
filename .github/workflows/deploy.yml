@@ -26,13 +26,13 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t aeon . # Replace with your desired image name
+          sudo docker build -t aeon . # Replace with your desired image name
 
       - name: Run Docker Container
         run: |
           # Stop and remove existing container if running
-          docker stop aeon-test || true
-          docker rm aeon-test || true
+          sudo docker stop aeon-test || true
+          sudo docker rm aeon-test || true
 
           # Run the Docker container on port 3001
-          docker run -d --name aeon-test -p 3001:3000 aeon # Adjust internal port if necessary
+          sudo docker run -d --name aeon-test -p 3001:3000 aeon # Adjust internal port if necessary
