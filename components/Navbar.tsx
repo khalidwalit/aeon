@@ -9,7 +9,7 @@ const Navbar = () => {
 
   // Reusable links array
   const navLinks = [
-    { label: "Showcase", href: "/" },
+    { label: "Showcase", href: "/calculator" },
     { label: "Docs", href: "/" },
     { label: "Blog", href: "/" },
     { label: "Analytics", href: "/" },
