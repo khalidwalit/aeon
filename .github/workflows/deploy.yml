@@ -1,0 +1,36 @@
+name: Deploy to Self-Hosted Server
+
+on:
+  push:
+    branches:
+      - main # Change to your default branch if necessary
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20" # Use the appropriate Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Deploy to Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.HOST }}
+          USER: ${{ secrets.USER }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          scp -i private_key -r .next public package.json node_modules $USER@$HOST:/path/to/deployment/directory
+          ssh -i private_key $USER@$HOST "cd /path/to/deployment/directory && npm install --production && pm2 restart your-app-name -- --port 3001"

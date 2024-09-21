@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 import NavLinks from "./NavLinks";
 import MobileMenuButton from "./MobileMenuButton";
 import SearchBar from "./SearchBar";
@@ -25,12 +26,12 @@ const Navbar = () => {
       {/* Logo and Links */}
       <div className="flex space-x-6">
         {/* AEON - Always visible */}
-        <a
+        <Link
           href="/"
           className="text-blue-400 md:text-gray-500 hover:text-gray-800"
         >
           AEON
-        </a>
+        </Link>
 
         {/* Links visible only on desktop */}
         <NavLinks links={navLinks} className="hidden md:flex space-x-6" />
