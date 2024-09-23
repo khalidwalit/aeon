@@ -1,13 +1,17 @@
 import { useState } from "react";
 
 const Calculator: React.FC = () => {
-  const [num1, setNum1] = useState<string>("");
-  const [num2, setNum2] = useState<string>("");
+  const [num1, setNum1] = useState<number | null>(null);
+  const [num2, setNum2] = useState<number | null>(null);
   const [total, setTotal] = useState<number | null>(null);
 
   const handleAddition = () => {
-    const sum = parseFloat(num1) + parseFloat(num2);
-    setTotal(sum);
+    if (num1 !== null && num2 !== null) {
+      const sum = num1 + num2;
+      setTotal(sum);
+    } else {
+      setTotal(null);
+    }
   };
 
   return (
@@ -18,8 +22,10 @@ const Calculator: React.FC = () => {
         <div className="mb-4">
           <input
             type="number"
-            value={num1}
-            onChange={(e) => setNum1(e.target.value)}
+            value={num1 ?? ""}
+            onChange={(e) =>
+              setNum1(e.target.value ? parseFloat(e.target.value) : null)
+            }
             placeholder="Enter first number"
             className="border border-gray-300 p-2 rounded-lg w-full"
           />
@@ -28,8 +34,10 @@ const Calculator: React.FC = () => {
         <div className="mb-4">
           <input
             type="number"
-            value={num2}
-            onChange={(e) => setNum2(e.target.value)}
+            value={num2 ?? ""}
+            onChange={(e) =>
+              setNum2(e.target.value ? parseFloat(e.target.value) : null)
+            }
             placeholder="Enter second number"
             className="border border-gray-300 p-2 rounded-lg w-full"
           />
