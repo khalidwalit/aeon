@@ -1,21 +1,20 @@
 const twoSum = (numbers: number[], target: number): number[] => {
-    let left: number = 0; // Initialize left pointer
-    let right: number = numbers.length - 1; // Initialize right pointer
+    let left: number = 0;
+    let right: number = numbers.length - 1;
 
     while (left < right) {
-        const sum: number = numbers[left] + numbers[right]; // Calculate the sum
+        const sum: number = numbers[left] + numbers[right];
 
         if (sum === target) {
-            // Return the 1-based indices
             return [left + 1, right + 1];
         } else if (sum < target) {
-            left++; // Move left pointer to the right
+            left++;
         } else {
-            right--; // Move right pointer to the left
+            right--;
         }
     }
 
-    return []; // This should not be reached as per problem constraints
+    return [];
 };
 
 console.log(twoSum([4,11,17,25], 21));
